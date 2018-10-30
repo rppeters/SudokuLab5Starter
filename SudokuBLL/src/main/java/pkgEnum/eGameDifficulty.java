@@ -24,7 +24,7 @@ public enum eGameDifficulty {
 		return iDifficulty;
 	}
 	
-	public eGameDifficulty get(int i) {
+	public static eGameDifficulty get(int i) {
 		 if (i < 100)
 			 return null;
 		 else if (i >= 100 && i < 500)

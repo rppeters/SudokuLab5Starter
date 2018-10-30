@@ -45,6 +45,8 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 	private int iSqrtSize;
 
+	private pkgEnum.eGameDifficulty eGameDifficulty;
+	
 	private HashMap<Integer, SudokuCell> cells = new HashMap<Integer, SudokuCell>();
 	
 	/**
@@ -60,6 +62,17 @@ public class Sudoku extends LatinSquare implements Serializable {
 	 * @param iSize- length of the width/height of the puzzle
 	 * @throws Exception if the iSize given doesn't have a whole number square root
 	 */
+	
+	private Sudoku() throws Exception {
+		this.eGameDifficulty = pkgEnum.eGameDifficulty.EASY;
+	}
+	
+	public Sudoku(int iSize, pkgEnum.eGameDifficulty eGD) throws Exception {
+		this(iSize);
+		this.eGameDifficulty = eGD;
+		//RemoveCells();
+	}
+	
 	public Sudoku(int iSize) throws Exception {
 
 		this.iSize = iSize;
