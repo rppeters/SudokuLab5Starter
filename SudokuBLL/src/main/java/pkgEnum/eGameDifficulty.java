@@ -25,13 +25,10 @@ public enum eGameDifficulty {
 	}
 	
 	public static eGameDifficulty get(int i) {
-		 if (i < 100)
-			 return null;
-		 else if (i >= 100 && i < 500)
-			 return EASY;
-		 else if (i >= 500 && i < 1000)
-			 return MEDIUM;
-		 else
-			 return HARD;
+		eGameDifficulty eGD = null;
+		for (eGameDifficulty e : eGameDifficulty.values())
+			if (e.getDifficulty() >= i)
+				eGD = e;
+		return eGD;
 	}
 }

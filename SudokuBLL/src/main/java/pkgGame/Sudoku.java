@@ -25,7 +25,6 @@ import pkgHelper.PuzzleViolation;
  *
  */
 public class Sudoku extends LatinSquare implements Serializable {
-
 	/**
 	 * 
 	 * iSize - the length of the width/height of the Sudoku puzzle.
@@ -70,11 +69,11 @@ public class Sudoku extends LatinSquare implements Serializable {
 	public Sudoku(int iSize, pkgEnum.eGameDifficulty eGD) throws Exception {
 		this(iSize);
 		this.eGameDifficulty = eGD;
-		//RemoveCells();
+		RemoveCells();
 	}
 	
 	public Sudoku(int iSize) throws Exception {
-
+		this();
 		this.iSize = iSize;
 
 		double SQRT = Math.sqrt(iSize);
@@ -90,6 +89,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		FillDiagonalRegions();
 		SetCells();		
 		fillRemaining(this.cells.get(Objects.hash(0, iSqrtSize)));
+		RemoveCells();
 		
 	}
 
@@ -123,6 +123,20 @@ public class Sudoku extends LatinSquare implements Serializable {
 	 * @version 1.5
 	 * @since Lab #5
 	 */
+	
+	private void RemoveCells() {
+		Random rand = new SecureRandom();
+		while (!isDifficultyMet(PossibleValuesMultiplier(cells))) {
+			this.getPuzzle()[rand.nextInt(9)][rand.nextInt(9)] = 0;
+			SetRemainingCells();
+		}
+	}
+	
+	private boolean isDifficultyMet(int iDifficulty) {
+		return this.eGameDifficulty.getDifficulty() < iDifficulty ? true : false;
+	}
+	
+	
 	public int getiSize() {
 		return iSize;
 	}
@@ -137,6 +151,28 @@ public class Sudoku extends LatinSquare implements Serializable {
 			return false;
 		}
 	}
+	
+	private void SetRemainingCells() {
+		for (SudokuCell c : cells.values()) {
+			if (getAllValidCellValues(c.getiRow(), c.getiCol()).size() == 0)
+				c.setlstValidValues(new HashSet<Integer>(Arrays.asList(this.getPuzzle()[c.getiRow()][c.getiCol()])));
+			else
+				c.setlstValidValues(getAllValidCellValues(c.getiRow(), c.getiCol()));
+		}
+	}
+	
+	private static int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
+		int difficulty = 1;
+		for (SudokuCell c : cells.values()) {
+			difficulty *= c.getLstValidValues().size(); 
+		}
+		
+		if (difficulty > Integer.MAX_VALUE) 
+			difficulty = Integer.MAX_VALUE;
+		
+		return difficulty;
+	}
+	
 	/**
 	 * SetCells - purpose of this method is to create a HashMap of all the cells
 	 * in the puzzle.  If the puzzle is 9X9, there will be 81 cells in the puzzle.

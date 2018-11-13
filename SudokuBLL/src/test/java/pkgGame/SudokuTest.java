@@ -128,15 +128,40 @@ public class SudokuTest {
 	public void Sudoku_FullPuzzle_1()
 	{
 		try {
-			Sudoku s1 = new Sudoku(9);
-			s1.PrintPuzzle();
-			assertTrue(s1.isSudoku());
+		Sudoku s1 = new Sudoku(9);
+		s1.PrintPuzzle();
+		//assertTrue(s1.isSudoku());
 
 		} catch (Exception e) {
 			fail("Test failed to build a Sudoku");
 		}
 	}
-
-
-
+	
+	@Test
+	public void SudokyConstruction1Arg_Test() throws Exception {
+		Sudoku s1 = new Sudoku(9);
+		assertFalse(s1.isSudoku());
+		System.out.println("Puzzle 1ARG S1:");
+		s1.PrintPuzzle();
+	}
+	
+	@Test
+	public void SudokuConstructionWithDifficulty_Test() throws Exception {
+		
+		Sudoku s1 = new Sudoku(9, pkgEnum.eGameDifficulty.EASY);
+		assertFalse(s1.isSudoku());
+		System.out.println("Puzzle S1");
+		s1.PrintPuzzle();
+		
+		Sudoku s2 = new Sudoku(9, pkgEnum.eGameDifficulty.MEDIUM);
+		assertFalse(s2.isSudoku());
+		System.out.println("Puzzle S2");
+		s2.PrintPuzzle();
+		
+		Sudoku s3 = new Sudoku(9, pkgEnum.eGameDifficulty.HARD);
+		assertFalse(s3.isSudoku());
+		System.out.println("Puzzle S3");
+		s3.PrintPuzzle();
+		
+	}
 }
